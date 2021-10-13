@@ -75,10 +75,10 @@ public class _00_SnakeGame implements ActionListener, KeyListener {
 
 	public void startGame() {
 		//1. Save the instructions for the game in the following string variable.
-		String instructions = "";
+		String instructions = "choose your difficulty.";
 		
 		String[] options = new String[] { "Expert", "Moderate", "Beginner" };
-		int input = JOptionPane.showOptionDialog(null, instructions, "Snake", 0, -1, null, options, 0);
+		int input = JOptionPane.showOptionDialog(null, instructions, "", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, 0);
 
 		String choice = options[input];
 		
@@ -87,13 +87,13 @@ public class _00_SnakeGame implements ActionListener, KeyListener {
 		//   of the game. The smaller the number, the faster it goes.
 		switch(choice) {
 		case "Expert":
-			timer.setDelay(1);
+			timer.setDelay(1000/90);
 			break;
 		case "Moderate":
-			timer.setDelay(3);
+			timer.setDelay(1000/50);
 			break;
 		case "Beginner":
-			timer.setDelay(5);
+			timer.setDelay(1000/30);
 			break;
 		}
 		//3. start the timer
@@ -146,9 +146,8 @@ public class _00_SnakeGame implements ActionListener, KeyListener {
 
 	private void setFoodLocation() {
 		//1. Create a new Location object that is set to a random location
-		Random x = new Random();
-		Random y = new Random();
-		Location location = new Location(x.nextInt(WINDOW_WIDTH),y.nextInt(WINDOW_HEIGHT));
+		Random r = new Random();
+		Location location = new Location(r.nextInt(WIDTH), r.nextInt(HEIGHT));
 		//2. set the foodLocation variable equal to the Location object you just created.
 		//   use the snake's isLocationOnSnake method to make sure you don't put the food on the snake
 		foodLocation = location;
@@ -161,8 +160,10 @@ public class _00_SnakeGame implements ActionListener, KeyListener {
 		timer.stop();
 		//2. tell the user their snake is dead
 		String[] gameOver = new String[] {"YES", "NO"};
-		int answer = JOptionPane.showOptionDialog(null, "Yay! You killed your snake. Play Again?", "GAME OVER", 0, -1, null, gameOver, 0);
+		int answer = JOptionPane.showOptionDialog(null, "You killed your snake. Play Again?", "GAME OVER", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, gameOver, 0);
+//		JOptionPane.showOptionDialog(parentComponent, message, title, optionType, messageType, icon, options, initialValue)
 		String response = gameOver[answer];
+		
 		switch(response) {
 		case "YES":
 			snake.reset(new Location(WIDTH / 2, HEIGHT / 2));
