@@ -36,35 +36,32 @@ public class Snake {
 	public void update() {
 		//1. use a switch statement to check on the currentDirection
 		//   of the snake and calculate its next x and y position.
+		Location newLoc = head.getLocation();
 		switch(currentDirection) {
 		case RIGHT:
-			Location newLoc = new Location(head.getLocation().x+1, head.getLocation().y);
-			head.setLocation(newLoc);
+			newLoc = new Location(head.getLocation().x+1, head.getLocation().y);
 			break;
 		case LEFT:
 			newLoc = new Location(head.getLocation().x-1, head.getLocation().y);
-			head.setLocation(newLoc);
 			break;
 		case UP:
 			newLoc = new Location(head.getLocation().x, head.getLocation().y-1);
-			head.setLocation(newLoc);
 			break;
 		case DOWN:
 			newLoc = new Location(head.getLocation().x, head.getLocation().y+1);
-			head.setLocation(newLoc);
 			break;
 		}
 
 		//2. Iterate through the SnakeSegments in reverse order
 		//2a. Update each snake segment to the location of the segment 
 		//    in front of it.
-		for(int i = snake.size()-1; i>=0; i++) {
-			
+		for(int i = snake.size()-1; i>0; i--) {
+			snake.get(i).setLocation(snake.get(i-1).getLocation());
 		}
-		//3. set the location of the head to the new location calculated in step 1
-
-		//4. set canMove to true
+		head.setLocation(newLoc);
 		canMove = true;
+		//3. set the location of the head to the new location calculated in step 1
+		//4. set canMove to true
 	}
 
 	public void setDirection(Direction d) {
@@ -122,7 +119,7 @@ public class Snake {
 		//   in the same location as any other body segment
 		if(snake.size()>1) {
 			for(int i = 1; i<snake.size(); i++) {
-				if(head.getLocation()==snake.get(i).getLocation()) {
+				if(head.getLocation().equals(snake.get(i).getLocation())) {
 					return true;
 			}
 		}
